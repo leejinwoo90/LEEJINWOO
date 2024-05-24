@@ -1,0 +1,45 @@
+## 20220607 EJ Train
+python -m torch.distributed.launch --nproc_per_node 4 train.py --batch 64 --data project2/project2.yaml --weights yolov5x.pt --epochs 250
+python -m torch.distributed.launch --nproc_per_node 4 train.py --batch 128 --data project2/project2.yaml --weights yolov5l.pt --epochs 250
+
+python -m torch.distributed.launch --nproc_per_node 4 train.py --batch 128 --data project2/project2.yaml --weights yolov5l.pt --epochs 100
+python -m torch.distributed.launch --nproc_per_node 4 train.py --batch 128 --data project2/project2.yaml --weights yolov5m.pt --epochs 100
+
+## 20220607 EJ Evolve
+python -m torch.distributed.launch --nproc_per_node 4 train.py --data project2/project2.yaml --epochs 250 --weights yolov5l.pt --cache --evolve
+python -m torch.distributed.launch --nproc_per_node 4 train.py --data project2/project2.yaml --epochs 250 --weights yolov5x.pt --cache --evolve
+
+python train.py --data project2/project2.yaml --epochs 100 --weights yolov5l.pt --cache --evolve
+python train.py --data project2/project2.yaml --epochs 250 --weights yolov5x.pt --cache --evolve
+
+
+
+
+
+
+
+
+
+
+
+- Train Multi GPU
+python -m torch.distributed.launch --nproc_per_node [gpu 개수] train.py --batch-size 128 --epochs 50 --data custom.yaml --weights yolov5l.pt --name yolov5l_0126 --hyp hyp_evolved.yaml
+
+
+- Evolve
+python train.py --epochs 10 --data custom.yaml --weights yolov5l.pt --cache --evolve
+python train.py --epochs 20 --data custom.yaml --weights best.pt --cache --evolve
+
+- Test
+python test.py --weights best.pt --data test.yaml --img 640 --task test --verbose
+
+
+- Detection
+python detect.py --weights best.pt --source test/images --save-txt --save-conf --name detection_result
+                                                       (folder name)
+
+(앙상블)
+python test.py --weights /home/ej/OD/yolov5/runs/train/yolov5l_0111/weights/best.pt /home/ej/OD/yolov5/runs/train/yolov5l_0111/weights/0107best.pt --data test.yaml --img 640 --task test --verbose
+
+
+

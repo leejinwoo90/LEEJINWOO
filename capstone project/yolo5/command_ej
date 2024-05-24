@@ -1,0 +1,9 @@
+python -m torch.distributed.launch --nproc_per_node 4 train.py --batch 64 --data project2/project2.yaml --weights yolov5s.pt --epochs 50 --batch-size 64 --optimizer Adam
+
+
+
+
+python val.py --weight runs/train/Version_2/weights/best.pt  --data project2/project2.yaml --task test --verbose --save_txt 
+
+
+python detect.py --weight runs/train/Version_2/weights/best.pt --source project2/images/test --save-txt --save-conf --name 220513
